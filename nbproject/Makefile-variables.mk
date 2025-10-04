@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
-CND_ARTIFACT_NAME_Debug=clientaprs
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/clientaprs
+CND_ARTIFACT_NAME_Debug=class_aprs
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/class_aprs
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
-CND_PACKAGE_NAME_Debug=clientaprs.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/clientaprs.tar
+CND_PACKAGE_NAME_Debug=classaprs.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/classaprs.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux
-CND_ARTIFACT_NAME_Release=clientaprs
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/clientaprs
+CND_ARTIFACT_NAME_Release=class_aprs
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/class_aprs
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
-CND_PACKAGE_NAME_Release=clientaprs.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/clientaprs.tar
+CND_PACKAGE_NAME_Release=classaprs.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/classaprs.tar
 #
 # include compiler specific variables
 #

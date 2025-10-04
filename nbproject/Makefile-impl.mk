@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=ClientAPRS
+PROJECTNAME=class_aprs
 
 # Active Configuration
 DEFAULTCONF=Debug

@@ -7,11 +7,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/philippe/NetBeansProjects/ClientAPRS/Position.h</file>
-            <file>file:/home/philippe/NetBeansProjects/ClientAPRS/AprsClient.cpp</file>
-            <file>file:/home/philippe/NetBeansProjects/ClientAPRS/Position.cpp</file>
-            <file>file:/home/philippe/NetBeansProjects/ClientAPRS/AprsClient.h</file>
-            <file>file:/home/philippe/NetBeansProjects/ClientAPRS/main.cpp</file>
+            <file>file:/home/philippe/Github/class_aprs/main.cpp</file>
+            <file>file:/home/philippe/Github/class_aprs/AprsClient.h</file>
+            <file>file:/home/philippe/Github/class_aprs/AprsClient.cpp</file>
         </group>
     </open-files>
 </project-private>
