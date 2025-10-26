@@ -1,13 +1,8 @@
 /* 
  * File:   main.cpp
  * Author: philippe SIMIER (F4JRE)
- * 
- * Programme Exemple d'utilisation de la class AprsClient
- * 
- *  gestion du signal SIGINT (Ctrl+C)
- *  arrêt propre du thread d’écoute
- *  fermeture du socket APRS-IS
- *  affichage clair des événements
+ *
+ * Programme APRS-IS Client
  * 
  *  Created on 15 septembre 2025, 11:29
  */
@@ -17,10 +12,17 @@
 #include <csignal>
 #include "AprsClient.h"
 #include "Position.h"
+#include "GestionFile.h"
+#include "SimpleIni.h"
+
+#define CONFIGURATION "/opt/configuration.ini"
 
 using namespace std;
 
 static bool stopRequested = false;
+
+GestionFile fileRX;
+MessageRX message;
 
 // Gestionnaire du signal SIGINT (Ctrl+C)
 void signalHandler(int signal);
@@ -29,19 +31,35 @@ void signalHandler(int signal);
 void onAprsMessageReceived(const std::string& message);
 
 int main() {
+    // enregistre le handler pour   SIGINT (Ctrl+C)
+    std::signal(SIGINT, signalHandler);
+    SimpleIni ini;
+
 
     try {
-        // --- 1️Création du client APRS-IS ---
-        AprsClient aprs;
 
-        // --- 2️Connexion au serveur APRS-IS ---
+        ini.Load(CONFIGURATION);
+        string indicatif = ini.GetValue("aprs", "indicatif", "F4ABC");
+        double latitude = ini.GetValue<double>("beacon", "latitude", 48.0);
+        double longitude = ini.GetValue<double>("beacon", "longitude", 0.0);
+        double altitude = ini.GetValue<double>("beacon", "altitude", 1);
+        string comment = ini.GetValue<string>("beacon", "comment", "comment default");
+        char symbol_table = ini.GetValue<char>("beacon", "symbol_table", '/');
+        char symbol  = ini.GetValue<char>("beacon", "symbol", 'O');
+
+        fileRX.obtenirFileIPC(5678);
+
+        // --- 1️ Création du client APRS-IS bidirectionnel---
+        AprsClient aprs(true);
+
+        // --- 2️ Connexion au serveur APRS-IS ---
         aprs.connectToServer("euro.aprs2.net", 14580);
 
         // --- 3️ Authentification avec un filtre---
-        aprs.authenticate("F4JRE-3", "r/48.01013/0.20614/100");
+        aprs.authenticate( indicatif, "r/48.01013/0.20614/20");
 
-        // --- 4️ Création d'une position pour apparaître sur la carte APRS ---
-        Position pos(48.01013, 0.20614, 85, 'I', '&', "C++ Client"); // latitude, longitude, altitude, symbole, commentaire
+        // --- 4️ Création d'une balise sur la carte APRS ---
+        Position pos(latitude, longitude, altitude, symbol_table, symbol, comment); // latitude, longitude, altitude, symbole, commentaire
 
         // --- 5️ Affichage du locator sur la console ---
         cout << "Locator : " << pos.getLocator(6) << endl;
@@ -56,18 +74,16 @@ int main() {
         // --- 8️ Boucle principale ---
         while (!stopRequested) {
 
-            this_thread::sleep_for(chrono::minutes(5));
             if (stopRequested) break;
 
-            try {
-                aprs.sendPosition(pos);
-                cout << "[APRS] Beacon périodique envoyé." << endl;
-            } catch (const runtime_error& e) {
-                cerr << "[APRS] Erreur d’envoi : " << e.what() << endl;
-            }
+            message = fileRX.lireDansLaFileIPC(2);
+            string loraFrame(message.text);
+            aprs.retransmitFrame(loraFrame);
+
+            this_thread::sleep_for(chrono::seconds(1));
         }
 
-        // --- 🔟 Arrêt propre ---
+        // --- 10 Arrêt propre ---
         cout << "[APRS] Arrêt du thread d’écoute et fermeture du socket..." << endl;
         aprs.stopListening();
         aprs.disconnect();
@@ -93,4 +109,8 @@ void onAprsMessageReceived(const std::string& message) {
 
     std::cout << "[APRS RX] " << message;
 }
+
+
+
+
 

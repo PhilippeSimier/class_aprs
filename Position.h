@@ -11,6 +11,7 @@
 #include <cmath>
 #include <iomanip>
 #include <fstream>
+#include <sstream>
 
 class Position {
 public:
